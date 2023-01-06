@@ -1,7 +1,7 @@
 name: 'End Portal'
 description: 'GitHub Actions workflow to automate build and deployment'
 author: 'TaciturnCoder'
-  
+
 jobs:
   # GitHub Actions workflow to automate build
   build:
