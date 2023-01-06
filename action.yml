@@ -1,0 +1,36 @@
+name: 'End Portal'
+description: 'GitHub Actions workflow to automate build and deployment'
+author: 'TaciturnCoder'
+  
+jobs:
+  # GitHub Actions workflow to automate build
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to default branch
+        uses: actions/checkout@v3
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v2
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Run build scripts
+        run: |
+          echo "Printing structure of ./_site"
+          ls -lar "./_site"
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+
+  # GitHub Actions workflow to automate deployment
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
