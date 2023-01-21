@@ -19,5 +19,17 @@ jobs:
   end_portal:
     runs-on: ubuntu-latest
     steps:
-      - name: Uses TaciturnCoder/End to build and deploy
+      - name: Uses TaciturnCoder/End to build
         uses: TaciturnCoder/End@main
+
+  # GitHub Actions workflow to automate deployment
+  deploy:
+    runs-on: ubuntu-latest
+    needs: end_portal
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
