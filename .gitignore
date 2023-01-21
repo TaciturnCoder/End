@@ -1,12 +1,18 @@
-*.gem
-.bundle
-.jekyll-cache
-.sass-cache
-_site
-Gemfile.lock
+# Current Project
 
+# Code editors
+.vscode
+
+# Python
+__pycache__
+*.pickle
+
+# Ruby
 _site
 .sass-cache
 .jekyll-cache
 .jekyll-metadata
 vendor
+*.gem
+.bundle
+Gemfile.lock
