@@ -16,16 +16,31 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  end_portal:
+  # GitHub Actions workflow to automate build
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Uses TaciturnCoder/End to build
-        uses: TaciturnCoder/End@main
+      - name: Checkout to default branch
+        uses: actions/checkout@v3
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v2
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Run post-build scripts
+        run: |
+          # currently none
+          echo "Printing structure of ./_site"
+          ls -lar "./_site"
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
 
   # GitHub Actions workflow to automate deployment
   deploy:
     runs-on: ubuntu-latest
-    needs: end_portal
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
